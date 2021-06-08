@@ -1,5 +1,5 @@
 ## Walmart Store Sales Forecasting
-![A Walmart Store](https://github.com/arnab000007/Walmart-Store-Sales-Forecasting/blob/main/images/header.jpeg "A Walmart Store")
+![A Walmart Store](images/header.jpeg "A Walmart Store")
 
 ### Kaggle Problem Definition
 Walmart is a supermarket chain in the USA. Currently, they have opened their stores all over the world.
@@ -55,6 +55,6 @@ There are 4 holiday mentioned in the dataset
 4. Christmas: 31-Dec-10, 30-Dec-11, 28-Dec-12, 27-Dec-13
 
 The performance Metric of this competition is the Weighted Mean Absolute Error(**WMAE**). As per the Kaggle page, the weight of the week which has a holiday is 5 otherwise 1. That means Walmart is more focused on the holiday week and they want to have less error on that week. We also focus on that part as well and try to reduce the error.
-![Evaluation metric](https://github.com/arnab000007/Walmart-Store-Sales-Forecasting/blob/main/images/wmae.jpeg "Kaggle Evaluation metric")
+![Evaluation metric](images/wmae.jpeg "Kaggle Evaluation metric")
 
 ### Part-2: Exploratory Data Analysis (EDA)
