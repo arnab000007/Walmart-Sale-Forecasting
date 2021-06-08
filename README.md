@@ -1,5 +1,5 @@
 ## Walmart Store Sales Forecasting
-![A Walmart Store](images/header.jpeg "A Walmart Store")
+![A Walmart Store](https://github.com/arnab000007/Walmart-Store-Sales-Forecasting/blob/main/images/header.jpeg "A Walmart Store")
 
 ### Kaggle Problem Definition
 Walmart is a supermarket chain in the USA. Currently, they have opened their stores all over the world.
