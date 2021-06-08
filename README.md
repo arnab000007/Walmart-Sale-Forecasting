@@ -101,3 +101,116 @@ print(test_all.isnull().sum()*100.0/test_all.shape[0])
 ```
 ![Test data info](images/test_df_info.png "Test data info")
 ![Test data info](images/test_df_info_p.png "Test data info")
+
+##### Observations
+1. There are more than 60 per cent markdowns that are NULL. As per the competition page Markdowns are available after Nov 2011. For the data before Nov 2011, the markdowns should be zero.
+2. For one-third of the test data the CPI and Unemployment. This ware depends on the location and time. But it cannot be changed drastically. So we can impute store location-wise mean of these columns.
+
+Let's fill in the NaN values -
+```python
+#Replace CPI & Unemployment
+test_all['CPI'] = test_all['CPI'].fillna(train_all.groupby('Store')['CPI'].transform('mean'))
+test_all['Unemployment'] = test_all['Unemployment'].fillna(train_all.groupby('Store')['Unemployment'].transform('mean'))
+#Replace the Markdowns with zero
+train_all.fillna(0, inplace=True)
+test_all.fillna(0, inplace=True)
+```
+
+#### Store Type Vs Size
+```python
+sns.set_style("whitegrid")
+ax = sns.boxplot(x='Type', y='Size', data=train_all).set_title("Box Plot of Type vs Size")
+```
+![Store Type Vs Size](images/type_vs_size.png "Store Type Vs Size")
+
+##### Observations
+1. Size is very different for different types of store.
+
+#### Highest Sales of a Week for a Department
+```python
+train_all_new = train_all.sort_values('Weekly_Sales',ascending=False)
+train_all_new = train_all_new.head(50)
+train_all_new['Week'] = train_all_new['Date'].dt.week
+train_all_new['Month'] = train_all_new['Date'].dt.month
+train_all_new['Year'] = train_all_new['Date'].dt.year
+#Pick top 100 rows
+print(tabulate(train_all_new[['Store','Dept','Size','Type','Week','Month','Year','Weekly_Sales']], headers='keys', tablefmt='psql', showindex=False))
+```
+![Highest Sales](images/most_sales.png "Highest Sales")
+
+##### Observations
+1. The highest sales are available on the week of Thanksgiving and the week before Christmas.
+2. Most of the sales take place in the department of 7 and 72
+
+#### Average Weekly sales over the time
+```python
+avg_sales = train_all.groupby('Date')[['Weekly_Sales']].mean().reset_index()
+fig = plt.figure(figsize=(18,6))
+plt.plot(avg_sales['Date'], avg_sales['Weekly_Sales'])
+plt.xlabel("Time --->", fontsize=16)
+plt.ylabel("Weekly Sales --->", fontsize=16)
+plt.title("Average weekly sales over time", fontsize=18)
+plt.show()
+```
+![Average Sales](images/average_weekly_sales.png "Average Sales")
+
+#### Let zoom the sales number over the year
+```python
+avg_sales = train_all.groupby('Date')[['Weekly_Sales']].agg(['mean','median']).reset_index()
+avg_sales['Week'] = avg_sales['Date'].dt.week
+avg_sales_2010 = avg_sales[avg_sales['Date'].dt.year == 2010]
+avg_sales_2011 = avg_sales[avg_sales['Date'].dt.year == 2011]
+avg_sales_2012 = avg_sales[avg_sales['Date'].dt.year == 2012]
+#Plot the model
+fig = plt.figure(figsize=(18,6))
+plt.plot(avg_sales_2010['Week'], avg_sales_2010['Weekly_Sales']['mean'], label='Year 2010 Mean Sales')
+plt.plot(avg_sales_2010['Week'], avg_sales_2010['Weekly_Sales']['median'], label='Year 2010 Median Sales')
+plt.plot(avg_sales_2011['Week'], avg_sales_2011['Weekly_Sales']['mean'], label='Year 2011 Mean Sales')
+plt.plot(avg_sales_2011['Week'], avg_sales_2011['Weekly_Sales']['median'], label='Year 2011 Median Sales')
+plt.plot(avg_sales_2012['Week'], avg_sales_2012['Weekly_Sales']['mean'], label='Year 2012 Mean Sales')
+plt.plot(avg_sales_2012['Week'], avg_sales_2012['Weekly_Sales']['median'], label='Year 2012 Median Sales')
+plt.xticks(np.arange(1, 53, step=1))
+plt.grid(axis='both',color='grey', linestyle='--', linewidth=1)
+plt.legend()
+plt.xlabel("Week --->", fontsize=16)
+plt.ylabel("Weekly Sales --->", fontsize=16)
+plt.title("Average/Median weekly sales of the Different Week Over a year", fontsize=18)
+```
+![Average/Median Weekly Sales](images/average_weekly_sales_by_year.png "Average/Median Weekly Sales")
+
+##### Observations
+1. The Sales Number from last November to December are much bigger than a normal week.
+2. The Sales number are minimum after December.
+3. We can see a spike for Super Bawl.
+4. In January the average sales are low.
+
+Now, Let's try to find the pattern of Weekly sales for some departments.
+
+```python
+avg_sales_depart = train_all.groupby(['Date','Dept'])[['Weekly_Sales']].mean().reset_index()
+#PLot for department 1 to 10
+
+fig = plt.figure(figsize=(18,6))
+for depart in range(1,11):
+    avg_sales_depa_curr = avg_sales_depart[avg_sales_depart['Dept'] == depart]
+    plt.plot(avg_sales_depa_curr['Date'], avg_sales_depa_curr['Weekly_Sales'], label='Department ' + str(depart))
+    
+plt.xlabel("Time --->", fontsize=16)
+plt.ylabel("Weekly Sales --->", fontsize=16)
+plt.title("Average weekly sales over time for department 1 to department 10",, fontsize=18)
+plt.legend()
+plt.show()
+```
+![Average Weekly Sales for dept 1 to 10](images/average_weekly_sales_by_dept_1.png "Average Weekly Sales for dept 1 to 10")
+
+Similarly, we can plot the same data for 11 to 20 and 20 to 30
+
+![Average Weekly Sales for dept 11 to 20](images/average_weekly_sales_by_dept_1.png "Average Weekly Sales for dept 11 to 20")
+![Average Weekly Sales for dept 21 to 30](images/average_weekly_sales_by_dept_1.png "Average Weekly Sales for dept 21 to 30")
+
+##### Observations
+1. Each Department has its own behaviour.
+2. For some of the department pattern of sales, the number is similar to the average sales number of all departments.
+3. We should have different models for different departments.
+
+
