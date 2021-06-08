@@ -58,3 +58,46 @@ The performance Metric of this competition is the Weighted Mean Absolute Error(*
 ![Evaluation metric](images/wmae.jpeg "Kaggle Evaluation metric")
 
 ### Part-2: Exploratory Data Analysis (EDA)
+At first, we want to load all CSV files
+```python
+#Sales Data
+train_data = pd.read_csv("train/train.csv")
+test_data = pd.read_csv("test/test.csv")
+
+#Features.csv
+feature_data = pd.read_csv("features.csv")
+
+#Stores.csv
+store_data = pd.read_csv("stores.csv")
+```
+Currently, we have multiple data frames. Let join those data frames.
+```python
+#Join The Train data
+train_all = train_data.set_index("Store").join(store_data.set_index("Store"))
+train_all.reset_index(inplace=True)
+train_all = train_all.set_index(["Store","Date"]).join(feature_data.set_index(["Store","Date"]))
+train_all.reset_index(inplace=True)
+#Train data size
+print(train_all.shape)
+train_all.head()
+```
+![Marge Train data](images/df_1_head.png "Marge Train data")
+
+Now, check the number of NaN values for each column for both Train and Test data.
+
+
+**Train Data**
+```python
+print(train_all.isnull().sum())
+print(train_all.isnull().sum()*100.0/train_all.shape[0])
+```
+![Train data info](images/train_df_info.png "Train data info")
+![Train data info](images/train_df_info_p.png "Train data info")
+
+**Test Data**
+```python
+print(test_all.isnull().sum())
+print(test_all.isnull().sum()*100.0/test_all.shape[0])
+```
+![Test data info](images/test_df_info.png "Test data info")
+![Test data info](images/test_df_info_p.png "Test data info")
