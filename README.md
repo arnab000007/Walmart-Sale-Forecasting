@@ -1,3 +1,6 @@
+## Walmart Store Sales Forecasting
+![Alt text](https://cdn-images-1.medium.com/max/800/1*NFJC1O5SOyr-JhRv3w8mYQ.jpeg "A Walmart Store")
+
 ## Welcome to GitHub Pages
 
 You can use the [editor on GitHub](https://github.com/arnab000007/walmart-sales/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
