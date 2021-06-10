@@ -314,3 +314,114 @@ store_Dept.head()
 ```
 ![Store vs Departments](https://user-images.githubusercontent.com/70307607/121472284-9bdff300-c9de-11eb-90b6-9d1d7fd75933.png)
 
+##### Observations
+1. Here we have a citical observation. For each store the number of departments available in that store are different. If we have a model for each store and department then there may be a issue if a new department is introduced in future.
+2. We have to check that above senario is present or not in our test data.
+
+Lets find the distict count of Store and Department in the traing data is **3331** and the same distinct count of test data is **3169**. But between these two distinct list of Store and Department **3158** combinations are common. That means their are **11** combinations of Store and Department avainable in test data but not available in train data.
+
+#### Average Sales behaviour Over a month
+Lets find the average sales of a week for each months. In the plot, Month are shown in numbers. Thats mean Month 1 is January.
+```python
+train_all['Month'] = train_all['Date'].dt.month
+train_all['Week'] = train_all['Date'].dt.week
+train_all['Week_Of_Month'] = (np.floor(train_all['Date'].dt.day/7+1))
+
+avg_sale_week_month = train_all.groupby(['Month','Week_Of_Month'])[['Weekly_Sales']].mean().reset_index()
+
+plt.figure(figsize=(20,12))
+for k in range(1,13):
+    ax = plt.subplot(3,4,k)
+    avg_sale_curr = avg_sale_week_month[avg_sale_week_month['Month'] == k]
+    
+    sns.set_style("whitegrid")
+    ax1 = sns.barplot(x="Week_Of_Month", y="Weekly_Sales", data=avg_sale_curr,ax=ax)
+    ax1.set_title("Average sales on month " + str(k));
+plt.show()
+```
+![Average Sales behaviour Over a month](images/download.png "Average Sales behaviour Over a month")
+
+##### Observations
+1. For most of the months first week of the month has more sales number than the last week of that months. I definitely add a feature called week of the month.
+2. In November, I have seen different behaviour than other months. Last week of November has Thanksgiving day and sales number is high for this week.
+3. In December, we have the Christmas holiday in the last week of the year. But sales number are prety low on this week. People did their Christmas shoping in the prior week.
+
+#### Let try to analyze the the Sales of last 2 weeks
+
+```python
+# Find all records for last 2 weeks
+train_all['Year'] = train_all['Date'].dt.year
+train_all_Dec = train_all[(train_all['Month'] == 12) & ((train_all['Week'] == 51) | (train_all['Week'] == 52))]
+
+train_all_Dec_grp1 = train_all_Dec.groupby('Date')[['Weekly_Sales']].mean().reset_index()
+train_all_Dec_grp1['Date2'] = train_all_Dec_grp1['Date'].apply(lambda x  : str(x.year) + "-" + str(x.month)+"-"+str(x.day))
+sns.set_style("whitegrid")
+ax = sns.barplot(x="Date2", y="Weekly_Sales", data=train_all_Dec_grp1)
+for index, row in train_all_Dec_grp1.iterrows():
+    ax.text(row.name,row.Weekly_Sales, round(row.Weekly_Sales,2), color='black', ha="center")
+plt.title('Average Sales of last 2 weeks of the year', fontsize=18)
+plt.grid(axis='y',color='gray', linestyle='--', linewidth=1)
+plt.ylabel('Sales Number', fontsize=16)
+plt.xlabel('Date', fontsize=16)
+plt.show()
+```
+
+![Average Sales of last 2 weeks of the year](https://user-images.githubusercontent.com/70307607/121474061-2a557400-c9e1-11eb-85d4-a20f6ab394ce.png)
+
+##### Observations
+1. In 2010, there are no days between the second last week and the Christmas day but in 2011, there is one day. This is one of the reason to have bigger last week sales number in 2011 comapre to 2010.
+2. Sum of sales number of the last 2 week of a year has similar number. 
+
+#### Compare sales of a holiday week with previous and post week
+
+```python
+train_all['Year'] = train_all['Date'].dt.year
+train_all['Week'] = train_all['Date'].dt.week
+
+all_holiday_week = train_all[train_all['IsHoliday'] == True]['Week'].unique()
+train_all_filtered = train_all[train_all['Week'].isin(all_holiday_week) | (train_all['Week']+1).isin(all_holiday_week) |(train_all['Week'] == 1) | (train_all['Week']-1).isin(all_holiday_week)]
+filtered_week_sum = train_all_filtered.groupby('Week')[['Weekly_Sales']].mean().reset_index()
+#train_all_filtered['Week'].unique()
+all_holiday = ['Super Bowl','Labour Day', 'ThanksGiving', 'Christmas']
+filtered_week_sum['HolidayCat'] = filtered_week_sum.apply(labelHoliday,axis=1)
+filtered_week_sum['PreOrPost'] = filtered_week_sum.apply(preOrPost,axis=1)
+#Taking the pivot
+train_pivot = filtered_week_sum.pivot(index='HolidayCat', columns='PreOrPost', values='Weekly_Sales').reset_index()
+train_pivot['Percentage_Sale_Increase_From_PreviousWeek'] = train_pivot.apply(lambda x: 100*(x['HolidayWeek'] - x['PreWeek'])/x['HolidayWeek'], axis=1)
+train_pivot['Percentage_Sale_Decrease_In_PostWeek'] = train_pivot.apply(lambda x: 100*(x['HolidayWeek'] - x['PostWeek'])/x['HolidayWeek'], axis=1)
+print(tabulate(train_pivot[['HolidayCat','Percentage_Sale_Increase_From_PreviousWeek','Percentage_Sale_Decrease_In_PostWeek']], headers='keys', tablefmt='psql', showindex=False))
+```
+![Compare sales of a holiday week with previous and post week](https://user-images.githubusercontent.com/70307607/121474948-6ccb8080-c9e2-11eb-9183-a51bf42cf9d8.png)
+
+##### Observation
+1. For Christmas Week, poeple are made their shpoing in prior week. 
+2. ThanksGiving week has almost 30% sales jump compare to the previous week and almost 25% sale decrease in the post week.
+
+#### Find the importance of Fuel price
+```python
+
+fig = plt.figure(figsize=(20,6))
+sns.set_style("whitegrid")
+col = 'Fuel_Price'
+m = CalculateAverege(col, 'high', 1)
+plt.title("For high Fuel Price Month " + str(m),fontsize = 16)
+plt.ylabel("Percentage increase from previous month",fontsize = 16)
+m = CalculateAverege(col, 'min', 2)
+plt.title("For Min Fuel Price Month " + str(m),fontsize = 16)
+plt.ylabel("Percentage increase from previous month",fontsize = 16)
+m = CalculateAverege(col, 'median', 3)
+plt.title("For Median Fuel Price Month " + str(m),fontsize = 16)
+plt.ylabel("Percentage increase from previous month",fontsize = 16)
+fig.suptitle("Variation of Sales with previous month with Fuel price",fontsize = 22)
+
+plt.show()
+
+```
+![Find the importance of Fuel price](https://user-images.githubusercontent.com/70307607/121475394-f713e480-c9e2-11eb-831c-3f923bfe3dbf.png)
+
+##### Observations
+1. We have seen that average weekly sales are increased from previous month irrespective of fuel price.
+2. In minimum fuel price month, price down by 3.5 percent and sale was increased by 11.8 percent. There may be reason of fuel price decrese. We have to consider that this month has a holiday.
+
+
+
