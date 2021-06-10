@@ -213,4 +213,94 @@ Similarly, we can plot the same data for 11 to 20 and 20 to 30
 2. For some of the department pattern of sales, the number is similar to the average sales number of all departments.
 3. We should have different models for different departments.
 
+**Here I have decided to train a model for each store and department.**
 
+#### Average weekly sales with store category and size
+In the below plot I am trying to plot average sales with store and size of the bubble is denoting the size of the store.
+```python
+avg_sales = train_all.groupby(['Store','Size', 'Type'])[['Weekly_Sales']].mean().reset_index()
+
+fig = px.scatter(avg_sales, x="Store", y="Weekly_Sales",
+	         size="Size", color="Type",
+                 hover_name="Store", log_y=True,
+                 size_max=60, title="Average Weekly Sales number with size and categoty of the store")
+fig.show()
+```
+![Average weekly sales with store category and size](images/newplot.png "Average weekly sales with store category and size")
+Here, I am trying to plot average sales with store and size of the bubble is denoting the size of the store.
+
+##### Observations
+1. Some stores are in A or B category but the sizes of those store are leas than the size of any C category store.
+2. Here we can see a broad partern that the store has more size have more sale numbers.
+
+#### Store wise Average Sales Numbers Holiday vs Non Holiday week
+
+```python
+weekly_sales_dept = train_all.groupby(["Store","IsHoliday"])[["Weekly_Sales"]].mean().reset_index()
+plt.figure(figsize=(20,10))
+sns.set_style("whitegrid")
+ax = sns.barplot(x="Store", y="Weekly_Sales",hue="IsHoliday", data=weekly_sales_dept)
+plt.title('Average Sales - per Department', fontsize=18)
+plt.ylabel('Sales Number', fontsize=16)
+plt.xlabel('Store', fontsize=16)
+plt.show()
+```
+Here we are trying to compare average sales of a store on a holiday week and non holiday week.
+![Store wise Average Sales Numbers Holiday vs Non Holiday week](images/Store_wise_Average_Sales.png "Store wise Average Sales Numbers Holiday vs Non Holiday week")
+
+##### Observations
+1. Most of the stores have better sales number in the holliday week.
+
+#### Storewise average percentage sale
+```python
+weekly_sales_dept = train_all.groupby(["Store", 'Type'])[["Weekly_Sales"]].mean().reset_index()
+weekly_sales_mean = weekly_sales_dept["Weekly_Sales"].sum()
+weekly_sales_dept['Percentage'] = weekly_sales_dept['Weekly_Sales']/weekly_sales_mean*100
+weekly_sales_dept = weekly_sales_dept.sort_values('Percentage', ascending=False).reset_index()
+weekly_sales_dept['Store Number'] = str(weekly_sales_dept['Store'])
+
+plt.figure(figsize=(24,10))
+sns.set_style("whitegrid")
+ax = sns.barplot(x="Store", y="Percentage", data=weekly_sales_dept, palette='deep',order=weekly_sales_dept['Store'],hue='Type', dodge=False )
+
+for p in ax.patches:
+    ax.annotate(str(format(p.get_height(), '.2f'))+"%", 
+                   (p.get_x() + p.get_width() / 2., p.get_height()), 
+                   ha = 'center', va = 'center', 
+                   size=12,
+                   xytext = (0, -20),
+                   rotation=90,
+                   weight='bold',
+                   color='white',
+                   textcoords = 'offset points')
+    
+plt.title('Average Sales - per Department', fontsize=18)
+plt.ylabel('Average Sales Number', fontsize=16)
+plt.xlabel('Store', fontsize=16)
+plt.show()
+```
+![Storewise average percentage sale](images/Storewise_average_percentage_sale.png "Storewise average percentage sale")
+
+##### Observations
+1. Some A category store has less average sales number than some B or C category.
+2. Most of A category stores have more number than B or C category.
+
+#### Department wise Average Sales Numbers Holiday vs Non Holiday week
+
+```python
+weekly_sales_dept = train_all.groupby(["Dept","IsHoliday"])[["Weekly_Sales"]].mean().reset_index()
+plt.figure(figsize=(20,10))
+sns.set_style("whitegrid")
+ax = sns.barplot(x="Dept", y="Weekly_Sales",hue="IsHoliday", data=weekly_sales_dept)
+plt.title('Average Sales - per Department', fontsize=18)
+plt.grid(axis='y',color='gray', linestyle='--', linewidth=1)
+plt.ylabel('Sales Number', fontsize=16)
+plt.xlabel('Departments', fontsize=16)
+plt.show()
+```
+Here we are trying to compare average sales of a department on a holiday week and non holiday week.
+![Department wise Average Sales Numbers](images/average_sales_dept.png "Department wise Average Sales Numbers")
+
+##### Observations
+1. For Some departments the increase of Holiday sales are bigger than the others. 
+2. But mmost of the departments the holiday sales is the range of the average sales.
