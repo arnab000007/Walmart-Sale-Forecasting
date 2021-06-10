@@ -3,7 +3,7 @@
 
 ### Kaggle Problem Definition
 Walmart is a supermarket chain in the USA. Currently, they have opened their stores all over the world.
-Predicting future sales for a company like Walmart is one of the most important aspects of strategic planning. Based on the sales number they can take an informed decision for short term and long term. The future sales number also help to recruit contract employee based on sales. It will also help a Walmart store to work more efficient way.
+Predicting future sales for a company like Walmart is one of the most important aspects of strategic planning. Based on the sales number they can take an informed decision for the short term and long term. The future sales number also help to recruit contract employee based on sales. It will also help a Walmart store to work more efficient way.
 
 ### The Big Question - Why we need a Machine Learning approach?
 They have multiple stores in various location across the world. There may have different sales pattern in different store placed in different locations. To identify this pattern and predict future sales, we should have a complete solution. Here, we can take a machine learning approach to create this complete solution. 
@@ -12,7 +12,7 @@ If we have a trained model, predicting the sales number of a store shouldn't be 
 ## Overview of this Blog:
 - **Part-1: Kaggle Data**
 - **Part-2: Exploratory Data Analysis (EDA)**
-- **Part-3: Data Pre-Processing & Feature Exraction**
+- **Part-3: Data Pre-Processing & Feature Extraction**
 - **Part-4: Machine Learning Regression Models**
 - **Part-5: The Model got the lowest error**
 - **Part-6: Future Work**
@@ -47,7 +47,7 @@ This file contains additional data related to the store, department, and regiona
 - Unemployment - the unemployment rate
 - IsHoliday - whether the week is a special holiday week
 
-There are 4 holiday mentioned in the dataset
+There are 4 holidays mentioned in the dataset
 
 1. Super Bowl: 12-Feb-10, 11-Feb-11, 10-Feb-12, 8-Feb-13
 2. Labor Day: 10-Sep-10, 9-Sep-11, 7-Sep-12, 6-Sep-13
@@ -216,7 +216,7 @@ Similarly, we can plot the same data for 11 to 20 and 20 to 30
 **Here I have decided to train a model for each store and department.**
 
 #### Average weekly sales with store category and size
-In the below plot I am trying to plot average sales with store and size of the bubble is denoting the size of the store.
+In the below plot I am trying to plot average sales with the store and the size of the bubble is denoting the size of the store.
 ```python
 avg_sales = train_all.groupby(['Store','Size', 'Type'])[['Weekly_Sales']].mean().reset_index()
 
@@ -245,7 +245,7 @@ plt.ylabel('Sales Number', fontsize=16)
 plt.xlabel('Store', fontsize=16)
 plt.show()
 ```
-Here we are trying to compare average sales of a store on a holiday week and non holiday week.
+Here we are trying to compare average sales of a store on a holiday week and non-holiday week.
 ![Store wise Average Sales Numbers Holiday vs Non Holiday week](images/Store_wise_Average_Sales.png "Store wise Average Sales Numbers Holiday vs Non Holiday week")
 
 ##### Observations
@@ -298,12 +298,12 @@ plt.ylabel('Sales Number', fontsize=16)
 plt.xlabel('Departments', fontsize=16)
 plt.show()
 ```
-Here we are trying to compare average sales of a department on a holiday week and non holiday week.
+Here we are trying to compare average sales of a department on a holiday week and non-holiday week.
 ![Department wise Average Sales Numbers](images/average_sales_dept.png "Department wise Average Sales Numbers")
 
 ##### Observations
-1. For Some departments the increase of Holiday sales are bigger than the others. 
-2. But mmost of the departments the holiday sales is the range of the average sales.
+1. For Some departments, the increases of Holiday sales are bigger than the others. 
+2. But in most of the departments, the holiday sales is the range of the average sales.
 
 #### Store vs Departments
 
@@ -315,10 +315,10 @@ store_Dept.head()
 ![Store vs Departments](https://user-images.githubusercontent.com/70307607/121472284-9bdff300-c9de-11eb-90b6-9d1d7fd75933.png)
 
 ##### Observations
-1. Here we have a citical observation. For each store the number of departments available in that store are different. If we have a model for each store and department then there may be a issue if a new department is introduced in future.
-2. We have to check that above senario is present or not in our test data.
+1. Here we have a critical observation. For each store the number of departments available in that store is different. If we have a model for each store and department then there may be an issue if a new department is introduced in future.
+2. We have to check the above scenario is present or not in our test data.
 
-Lets find the distict count of Store and Department in the traing data is **3331** and the same distinct count of test data is **3169**. But between these two distinct list of Store and Department **3158** combinations are common. That means their are **11** combinations of Store and Department avainable in test data but not available in train data.
+Let us find the distinct count of Store and Department in the training data is **3331** and the same distinct count of test data is **3169**. But between these two distinct lists of Store and Department, **3158** combinations are common. That means there are **11** combinations of Store and Department available in test data but not available in train data.
 
 #### Average Sales behaviour Over a month
 Lets find the average sales of a week for each months. In the plot, Month are shown in numbers. Thats mean Month 1 is January.
@@ -342,9 +342,9 @@ plt.show()
 ![Average Sales behaviour Over a month](images/download.png "Average Sales behaviour Over a month")
 
 ##### Observations
-1. For most of the months first week of the month has more sales number than the last week of that months. I definitely add a feature called week of the month.
-2. In November, I have seen different behaviour than other months. Last week of November has Thanksgiving day and sales number is high for this week.
-3. In December, we have the Christmas holiday in the last week of the year. But sales number are prety low on this week. People did their Christmas shoping in the prior week.
+1. For most of the months, the first week of the month has more sales number than the last week of that months. I add a feature called the week of a month.
+2. In November, I have seen different behaviour than in other months. The last week of November has Thanksgiving day and the sales number is high for this week.
+3. In December, we have the Christmas holiday in the last week of the year. But sales number are pretty low this week. People did their Christmas shopping in the prior week.
 
 #### Let try to analyze the the Sales of last 2 weeks
 
@@ -369,7 +369,7 @@ plt.show()
 ![Average Sales of last 2 weeks of the year](https://user-images.githubusercontent.com/70307607/121474061-2a557400-c9e1-11eb-85d4-a20f6ab394ce.png)
 
 ##### Observations
-1. In 2010, there are no days between the second last week and the Christmas day but in 2011, there is one day. This is one of the reason to have bigger last week sales number in 2011 comapre to 2010.
+1. In 2010, there are no days between the second last week and the Christmas day but in 2011, there is one day. This is one of the reasons to have a bigger last week sales number in 2011 compared to 2010.
 2. Sum of sales number of the last 2 week of a year has similar number. 
 
 #### Compare sales of a holiday week with previous and post week
@@ -394,8 +394,9 @@ print(tabulate(train_pivot[['HolidayCat','Percentage_Sale_Increase_From_Previous
 ![Compare sales of a holiday week with previous and post week](https://user-images.githubusercontent.com/70307607/121474948-6ccb8080-c9e2-11eb-9183-a51bf42cf9d8.png)
 
 ##### Observation
-1. For Christmas Week, poeple are made their shpoing in prior week. 
-2. ThanksGiving week has almost 30% sales jump compare to the previous week and almost 25% sale decrease in the post week.
+1. For Christmas Week, people are made their shopping in the prior week.
+2. Thanksgiving week has an almost 30% sales jump compared to the previous week and an almost 25% sale decrease in the post week.
+
 
 #### Find the importance of Fuel price
 ```python
@@ -423,17 +424,18 @@ plt.show()
 1. We have seen that average weekly sales are increased from previous month irrespective of fuel price.
 2. In minimum fuel price month, price down by 3.5 percent and sale was increased by 11.8 percent. There may be reason of fuel price decrese. We have to consider that this month has a holiday.
 
-#### Similarly we can get the similar plot for Temperature, CPI and Unemployment Rate
+#### Similarly, we can get a similar plot for Temperature, CPI and Unemployment Rate
 
 ![Find the importance of Temperature](https://user-images.githubusercontent.com/70307607/121476301-1c552280-c9e4-11eb-913f-934d7df5a260.png)
 ##### Observations
-1. For Minimum temperature month there is a huge decrease in sales compare to the previous month.
-2. When temperature is high then also the sales number is low compare to the previous month.
+1. For the Minimum temperature month, there is a huge decrease in sales compared to the previous month.
+2. When the temperature is high then also the sales number is low compare to the previous month.
+
 
 ![Find the importance of CPI](https://user-images.githubusercontent.com/70307607/121476340-29721180-c9e4-11eb-910a-4fec589ff20e.png)
 
 ##### Observations
-1. There is not much varation in CPI. It seems that the Sales number is not dependent to CPI. 
+1. There is not much variation in CPI. It seems that the Sales number is not dependent on CPI. 
 
 ![Find the importance of Unemployment Rate](https://user-images.githubusercontent.com/70307607/121476381-35f66a00-c9e4-11eb-99e1-00b75b7c5f8a.png)
 
@@ -454,18 +456,18 @@ plt.show()
 ```
 ![Pearson Corelation Heatmap](https://user-images.githubusercontent.com/70307607/121477398-6b4f8780-c9e5-11eb-86ed-88c3b5d9e0ce.png)
 
-#### Lets plot Spearman Corelation
+#### Let's plot Spearman Correlation
 ![Spearman Corelation Heatmap](https://user-images.githubusercontent.com/70307607/121477549-9e921680-c9e5-11eb-8b7d-5920db04502f.png)
 
 ##### Observations
 
 1. There are very low correlations with the Sales number for most of the columns. 
 
-I are keeping all columns except markdowns. We will create some extra columns for the date. You can find it in data Preprocessing section.
+I am keeping all columns except markdowns. We will create some extra columns for the date. You can find it in the data Preprocessing section.
 
-### Part-3: Data Pre-Processing & Feature Exraction
-In this section we have done below steps - 
-1. Droped all markdowns.
+### Part-3: Data Pre-Processing & Feature Extraction
+In this section, we have done the below steps - 
+1. Dropped  all markdowns.
 2. Extracted some property from the Date columns
 	- Year
 	- Month
