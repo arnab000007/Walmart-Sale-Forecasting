@@ -423,5 +423,46 @@ plt.show()
 1. We have seen that average weekly sales are increased from previous month irrespective of fuel price.
 2. In minimum fuel price month, price down by 3.5 percent and sale was increased by 11.8 percent. There may be reason of fuel price decrese. We have to consider that this month has a holiday.
 
+#### Similarly we can get the similar plot for Temperature, CPI and Unemployment Rate
+
+![Find the importance of Temperature](https://user-images.githubusercontent.com/70307607/121476301-1c552280-c9e4-11eb-913f-934d7df5a260.png)
+##### Observations
+1. For Minimum temperature month there is a huge decrease in sales compare to the previous month.
+2. When temperature is high then also the sales number is low compare to the previous month.
+
+![Find the importance of CPI](https://user-images.githubusercontent.com/70307607/121476340-29721180-c9e4-11eb-910a-4fec589ff20e.png)
+
+##### Observations
+1. There is not much varation in CPI. It seems that the Sales number is not dependent to CPI. 
+
+![Find the importance of Unemployment Rate](https://user-images.githubusercontent.com/70307607/121476381-35f66a00-c9e4-11eb-99e1-00b75b7c5f8a.png)
+
+##### Observations
+1. The max unemployment rate in December and in this month, huge sale increase in December compare ro the previous month.
+
+#### Lets find the correlation between different features
+
+
+```python
+corr = train_all.corr()
+sns.set_style("whitegrid")
+plt.figure(figsize=(15, 10))
+sns.heatmap(corr, annot=True, cmap="YlGnBu")
+plt.plot()
+plt.title("Pearson Corelation Heatmap", fontsize=18)
+plt.show()
+```
+![Pearson Corelation Heatmap](https://user-images.githubusercontent.com/70307607/121477398-6b4f8780-c9e5-11eb-86ed-88c3b5d9e0ce.png)
+
+#### Lets plot Spearman Corelation
+![Spearman Corelation Heatmap](https://user-images.githubusercontent.com/70307607/121477549-9e921680-c9e5-11eb-8b7d-5920db04502f.png)
+
+##### Observations
+
+1. There are very low correlations with the Sales number for most of the columns. 
+
+We are keeping all columns except markdowns.
+
+
 
 
