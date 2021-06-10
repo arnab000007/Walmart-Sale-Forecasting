@@ -12,7 +12,7 @@ If we have a trained model, predicting the sales number of a store shouldn't be 
 ## Overview of this Blog:
 - **Part-1: Kaggle Data**
 - **Part-2: Exploratory Data Analysis (EDA)**
-- **Part-3: Data Pre-Processing**
+- **Part-3: Data Pre-Processing & Feature Exraction**
 - **Part-4: Machine Learning Regression Models**
 - **Part-5: The Model got the lowest error**
 - **Part-6: Future Work**
@@ -461,8 +461,18 @@ plt.show()
 
 1. There are very low correlations with the Sales number for most of the columns. 
 
-We are keeping all columns except markdowns.
+I are keeping all columns except markdowns. We will create some extra columns for the date. You can find it in data Preprocessing section.
 
-
-
+### Part-3: Data Pre-Processing & Feature Exraction
+In this section we have done below steps - 
+1. Droped all markdowns.
+2. Extracted some property from the Date columns
+	- Year
+	- Month
+	- Day
+	- Week of Month
+	- Week Number of the Year
+	- Days to Crismas
+3. One hot encoding for the Store type
+4. Drop the Date & Type
 
