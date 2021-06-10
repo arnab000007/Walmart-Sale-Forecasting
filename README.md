@@ -302,7 +302,7 @@ Here we are trying to compare average sales of a department on a holiday week an
 ![Department wise Average Sales Numbers](images/average_sales_dept.png "Department wise Average Sales Numbers")
 
 ##### Observations
-1. For Some departments, the increases of Holiday sales are bigger than the others. 
+1. For Some departments, the increases in Holiday sales are bigger than the others. 
 2. But in most of the departments, the holiday sales is the range of the average sales.
 
 #### Store vs Departments
@@ -421,8 +421,9 @@ plt.show()
 ![Find the importance of Fuel price](https://user-images.githubusercontent.com/70307607/121475394-f713e480-c9e2-11eb-831c-3f923bfe3dbf.png)
 
 ##### Observations
-1. We have seen that average weekly sales are increased from previous month irrespective of fuel price.
-2. In minimum fuel price month, price down by 3.5 percent and sale was increased by 11.8 percent. There may be reason of fuel price decrese. We have to consider that this month has a holiday.
+1. We have seen that average weekly sales are increased from the previous month irrespective of fuel price.
+2. In minimum fuel price month, price down by 3.5 per cent and the sale was increased by 11.8 per cent. There may be a reason for the fuel price decrease. We have to consider that this month has a holiday.
+
 
 #### Similarly, we can get a similar plot for Temperature, CPI and Unemployment Rate
 
