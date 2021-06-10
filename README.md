@@ -476,3 +476,45 @@ In this section we have done below steps -
 3. One hot encoding for the Store type
 4. Drop the Date & Type
 
+```python
+#This is the function which will do all the featurizarion and add new feature
+def add_drop_feature(df):
+    #droping all markdowns
+    columns_drop = ['MarkDown1','MarkDown2','MarkDown3','MarkDown4','MarkDown5']
+    for col in columns_drop:
+        if col in df.columns:
+            df.drop(col, axis=1, inplace=True)
+    df['Date'] = pd.to_datetime(df['Date'])
+    df['Year'] = df['Date'].dt.year
+    df['Month'] = df['Date'].dt.month
+    df['Day'] = df['Date'].dt.day
+    df['Week_Of_Month'] = (np.floor(df['Date'].dt.day/7+1))    
+    df['Week'] = df['Date'].dt.week
+    
+    df['Days_to_Christmas'] = (pd.to_datetime(df['Year'].astype(str)+"-12-25", format="%Y-%m-%d") - df['Date']).dt.days.astype(int)
+    
+    ohe_type = pd.get_dummies(df.Type)
+    
+    df = pd.concat([df, ohe_type], axis=1)
+    
+    df = df.drop(['Date', 'Type'], axis=1)
+    
+    return df
+train_df_final = add_drop_feature(train_df)
+train_df_final.head()
+```
+![Final Train Data](https://user-images.githubusercontent.com/70307607/121539263-264a4600-ca23-11eb-91bc-bbf2ebd777b2.png)
+
+```python
+test_df_final = add_drop_feature(test_df)
+test_df_final.head()
+```
+![Final Test Data](https://user-images.githubusercontent.com/70307607/121539396-45e16e80-ca23-11eb-9f6c-bf615c12bc9f.png)
+
+Now, Save Train and Tesr data to a .csv file and we can use those files while training and testing the module.
+
+```python
+train_df_final.to_csv('train_all_features.csv', index=False)
+test_df_final.to_csv('test_all_features.csv', index=False)
+```
+
