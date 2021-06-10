@@ -523,3 +523,4 @@ test_df_final.to_csv('test_all_features.csv', index=False)
 
 ### Part-4: Machine Learning Regression Models
 
+![walmart](https://user-images.githubusercontent.com/70307607/121583395-d16ff500-ca4d-11eb-94ee-47a45686953d.gif)
