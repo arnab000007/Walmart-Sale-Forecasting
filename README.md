@@ -304,3 +304,13 @@ Here we are trying to compare average sales of a department on a holiday week an
 ##### Observations
 1. For Some departments the increase of Holiday sales are bigger than the others. 
 2. But mmost of the departments the holiday sales is the range of the average sales.
+
+#### Store vs Departments
+
+Let find the highest number of department of a store
+```python
+store_Dept = train_all.groupby(['Store'])[['Dept']].nunique().reset_index().sort_values('Dept', ascending=False)
+store_Dept.head()
+```
+![Store vs Departments](https://user-images.githubusercontent.com/70307607/121472284-9bdff300-c9de-11eb-90b6-9d1d7fd75933.png)
+
