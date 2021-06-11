@@ -746,6 +746,7 @@ plt.show()
 
 ![Extra Trees - Feature Importance Store 22 Dept 93](https://user-images.githubusercontent.com/70307607/121704921-d38b8f80-caf1-11eb-94ba-81bf9fcc5de2.png)
 
+![image](https://user-images.githubusercontent.com/70307607/121709104-d5efe880-caf5-11eb-8e91-a3878866a6fa.png)
 
 
 ![walmart](https://user-images.githubusercontent.com/70307607/121583395-d16ff500-ca4d-11eb-94ee-47a45686953d.gif)
