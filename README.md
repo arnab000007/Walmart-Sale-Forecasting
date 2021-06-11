@@ -540,7 +540,7 @@ def calculate_WMAE(dt, y , yHat):
     return np.round(np.sum(w*abs(y-yHat))/np.sum(w),4)
 ```
 
-#### Random Forest Regressor
+#### 1. Random Forest Regressor
 At first, split the data into train and cross-validation datasets. Train the Random Forest regressor on the training dataset. After that find the WAME error on the cross-validation datasets. Repeat these steps for multiple hyperparameters. 
 
 After that, pick the best model basis on **WAME(minimum)** scores.
@@ -550,6 +550,7 @@ Train the Random Forest regressor model with the hyperparameters of the best mod
 **Save a Random Forest regressor model for all applicable Store & Department combinations**. After completing the training, there are **3227 trained Random Forest Regressor models** stored on the hard disk. 
 
 All hyperparameters used to train the model is given below.
+
 ```python
 #Selecting some random hyper Parameters
 RF_HF = dict(n_estimators=[10,20,30,40,50,60,75],
@@ -610,6 +611,70 @@ plt.show()
 ![Random Forest - Feature Importance Store 40 Dept 18](https://user-images.githubusercontent.com/70307607/121644644-e6ca3b00-cab0-11eb-8163-ee04e5c621d8.png)
 
 ![Random Forest - Feature Importance Store 22 Dept 93](https://user-images.githubusercontent.com/70307607/121644821-255ff580-cab1-11eb-8444-39a2115a205f.png)
+
+
+#### 2. XGBoost Regressor
+We will follow the same approach for XGBoost Regressor like Random Forest regressor. We will split the data in the same ratio to train and cross-validate the model. After training multiple models for multiple hyperparameters, we will pick the best model which has min WMAE and we will train the best model with the complete data and save the model in a pickle file.
+
+All hyperparameters used to train the model is given below.
+```python
+XGB_HF = dict(n_estimators=[10,20,30,40,50,60,75],
+    max_depth=[2,3,5,7,9,11,15],
+    learning_rate = [0.001,0.003,0.01,0.03,0.1])
+```
+
+Next, randomly pick the hyperparameters from the above list and train the regressor model.
+```python
+esti = choice(XGB_HF['n_estimators'])
+md = choice(XGB_HF['max_depth'])
+lr = choice(XGB_HF['learning_rate'])
+
+#Initialize the model
+rf = xgb.XGBRegressor(n_estimators=esti
+		      ,max_depth=md
+		       ,learning_rate = lr
+		       ,n_jobs=-1)
+
+#Train the Random Forest model
+rf.fit(train_X,train_y)
+
+#Calculate WMAE 
+y_hat = rf.predict(test_X)
+wmae_score = calculate_WMAE(test_X,test_y,y_hat)
+```
+
+After running these steps multiple times(20), pick the best model and train this with complete data. After training, save this model in a pickle file.
+
+```python
+filename = 'Models/XGBoost/XGB_'+str(s)+'_'+str(d)+'V'+str(v)+'.pkl'
+
+with open(filename, 'wb') as file:
+    pickle.dump(model, file)
+```
+
+Let’s find the feature importance of the XGBoost regressor model for the same Store and Department for which we have seen in case Random Forest regressor.
+
+```python
+ with open('Models/XGBoost/XGB_1_1V1.pkl', 'rb') as file:
+    pickle_model = pickle.load(file)
+  
+plt.figure(figsize=(16,6))
+sns.set_style("whitegrid")
+ax = sns.barplot(x=train_df_final.columns[3:], y=pickle_model.feature_importances_)
+plt.title('XGBoost - Feature Importance Store 1 Dept 1', fontsize=14)
+plt.ylabel('Feature Importance', fontsize=16)
+plt.xlabel('Feature', fontsize=16)
+plt.show()
+   
+```
+
+![XGBoost - Feature Importance Store 1 Dept 1](https://user-images.githubusercontent.com/70307607/121700331-6b3aaf00-caed-11eb-9b56-4629c968f832.png)
+
+![XGBoost - Feature Importance Store 35 Dept 72](https://user-images.githubusercontent.com/70307607/121700542-a341f200-caed-11eb-9196-5da8dff70ce2.png)
+
+![XGBoost - Feature Importance Store 40 Dept 18](https://user-images.githubusercontent.com/70307607/121700682-c7053800-caed-11eb-870c-2c902579fc9f.png)
+
+![XGBoost - Feature Importance Store 22 Dept 93](https://user-images.githubusercontent.com/70307607/121700871-f1ef8c00-caed-11eb-8f33-a1f30388f833.png)
 
 
 
