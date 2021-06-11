@@ -549,7 +549,7 @@ Train the Random Forest regressor model with the hyperparameters of the best mod
 
 **Save a Random Forest regressor model for all applicable Store & Department combinations**. After completing the training, there are **3227 trained Random Forest Regressor models** stored on the hard disk. 
 
-All hyperparameters used to train the model is given below.
+All hyperparameters used to train the model are given below.
 
 ```python
 #Selecting some random hyper Parameters
@@ -616,7 +616,7 @@ plt.show()
 #### 2. XGBoost Regressor
 We will follow the same approach for XGBoost Regressor like Random Forest regressor. We will split the data in the same ratio to train and cross-validate the model. After training multiple models for multiple hyperparameters, we will pick the best model which has min WMAE and we will train the best model with the complete data and save the model in a pickle file.
 
-All hyperparameters used to train the model is given below.
+All hyperparameters used to train the model are given below.
 ```python
 XGB_HF = dict(n_estimators=[10,20,30,40,50,60,75],
     max_depth=[2,3,5,7,9,11,15],
@@ -652,7 +652,7 @@ with open(filename, 'wb') as file:
     pickle.dump(model, file)
 ```
 
-Let’s find the feature importance of the XGBoost regressor model for the same Store and Department for which we have seen in case Random Forest regressor.
+Let’s find the feature importance of the XGBoost regressor model for the same Store and Department for which we have seen in the case of Random Forest regressor.
 
 ```python
  with open('Models/XGBoost/XGB_1_1V1.pkl', 'rb') as file:
@@ -676,6 +676,75 @@ plt.show()
 
 ![XGBoost - Feature Importance Store 22 Dept 93](https://user-images.githubusercontent.com/70307607/121700871-f1ef8c00-caed-11eb-8f33-a1f30388f833.png)
 
+
+#### 3. Extra Trees Regressor
+
+We will follow the same approach as the Random Forest or XGBoost regressor. We will split the data in the same ratio to train and cross-validate the model. After training multiple models for multiple hyperparameters, we will pick the best model which has min WMAE and we will train the best model with the complete data and save the model in a pickle file.
+
+All hyperparameters used to train the model are given below.
+```python
+#Hyper parameter for the Extra Trees
+ET_HF = dict(n_estimators=[10,20,30,40,50,60,75],
+    max_depth=[3,5,7,9,11,15],
+    max_features = [2,3,4,5,6,7,8,9],
+    min_samples_split = [2,3,4],
+    min_samples_leaf = [1,2,3])
+```
+Next, randomly pick the hyperparameters from the above list and train the regressor model.
+
+```python
+#Selecting some random hyper Parameter
+esti = choice(ET_HF['n_estimators'])
+md = choice(ET_HF['max_depth'])
+mf = choice(ET_HF['max_features'])
+mss = choice(ET_HF['min_samples_split'])
+msl = choice(ET_HF['min_samples_leaf'])
+
+#Initialize the model
+rf = ExtraTreesRegressor(n_estimators=esti
+		      ,max_depth=md
+		       ,max_features = mf
+		       ,min_samples_split = mss
+		       ,min_samples_leaf = msl
+		       ,n_jobs=-1)
+
+#Train the Extra Trees model
+rf.fit(train_X,train_y)
+
+#Calculate WMAE 
+y_hat = rf.predict(test_X)
+wmae_score = calculate_WMAE(test_X,test_y,y_hat)
+```
+
+After running these steps multiple times(20), pick the best model and train this with complete data. After training, save this model in a pickle file.
+
+```python
+filename = 'Models/XtraTrees/ET_'+str(s)+'_'+str(d)+'V'+str(v)+'.pkl'
+with open(filename, 'wb') as file:
+    pickle.dump(model, file)
+```
+Let’s find the feature importance of the EXtra Trees regressor model for the same Store and Department for which we have seen the feature importance of other models.
+
+```python
+ with open('Models/XtraTrees/ET_1_1V1.pkl', 'rb') as file:
+    pickle_model = pickle.load(file)
+    
+plt.figure(figsize=(16,6))
+sns.set_style("whitegrid")
+ax = sns.barplot(x=train_df_final.columns[3:], y=pickle_model.feature_importances_)
+plt.title('XGBoost - Feature Importance Store 1 Dept 1', fontsize=14)
+plt.ylabel('Feature Importance', fontsize=16)
+plt.xlabel('Feature', fontsize=16)
+plt.show()
+```
+
+![Extra Trees - Feature Importance Store 1 Dept 1](https://user-images.githubusercontent.com/70307607/121704401-5f50ec00-caf1-11eb-99e3-8dfd33b32d30.png)
+
+![Extra Trees - Feature Importance Store 35 Dept 72](https://user-images.githubusercontent.com/70307607/121704541-798aca00-caf1-11eb-850a-312c66661aa6.png)
+
+![Extra Trees - Feature Importance Store 40 Dept 18](https://user-images.githubusercontent.com/70307607/121704648-90c9b780-caf1-11eb-8d46-d474df87e5dd.png)
+
+![Extra Trees - Feature Importance Store 22 Dept 93](https://user-images.githubusercontent.com/70307607/121704921-d38b8f80-caf1-11eb-94ba-81bf9fcc5de2.png)
 
 
 
