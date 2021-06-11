@@ -549,5 +549,63 @@ Train the Random Forest regressor model with the hyperparameters of the best mod
 
 **Save a Random Forest regressor model for all applicable Store & Department combinations**. After completing the training, there are **3227 trained Random Forest Regressor models** stored on the hard disk. 
 
+All hyperparameters used to train the model is given below.
+```python
+#Selecting some random hyper Parameters
+RF_HF = dict(n_estimators=[10,20,30,40,50,60,75],
+            max_depth=[3,5,7,9,11,15],
+            max_features = [2,3,4,5,6,7,8,9],
+            min_samples_split = [2,3,4],
+            min_samples_leaf = [1,2,3])
+```
+Next, randomly pick the hyperparameters from the above list and train the regressor model.
+```python
+esti = choice(RF_HF['n_estimators'])
+md = choice(RF_HF['max_depth'])
+mf = choice(RF_HF['max_features'])
+mss = choice(RF_HF['min_samples_split'])
+msl = choice(RF_HF['min_samples_leaf'])
+
+#Initialize the model
+rf = RandomForestRegressor(n_estimators=esti
+      ,max_depth=md
+       ,max_features = mf
+       ,min_samples_split = mss
+       ,min_samples_leaf = msl
+       ,n_jobs=-1)
+
+#Train the Random Forest model
+rf.fit(train_X,train_y)
+```
+
+Now, predict the sales number and calculate **WMAE** and keep this error number to pick the best-tuned model.
+```python
+y_hat = rf.predict(test_X)
+wmae_score = calculate_WMAE(test_X,test_y,y_hat)
+```
+After running these steps multiple times(20), pick the best model and train this with complete data. After training, save this model in a pickle file.
+```python
+filename = 'Models/RandomForest/RF_'+str(s)+'_'+str(d)+'V1.pkl'
+
+with open(filename, 'wb') as file:
+	pickle.dump(model, file)
+```
+Let’s find the feature importance of the Random Forest regressor model for some random Store and Department.
+```python
+ with open('Models/RandomForest/RF_1_1V1.pkl', 'rb') as file:
+    pickle_model = pickle.load(file)
+    
+plt.figure(figsize=(20,10))
+sns.set_style("whitegrid")
+ax = sns.barplot(x=train_df_final.columns[3:], y=pickle_model.feature_importances_)
+plt.title('Random Forest - Feature Importance Store 1 Dept 1 ', fontsize=18)
+plt.ylabel('Feature Importance', fontsize=16)
+plt.xlabel('Feature', fontsize=16)
+plt.show()
+```
+![Random Forest - Feature Importance Store 1 Dept 1](https://user-images.githubusercontent.com/70307607/121643745-cbaafb80-caaf-11eb-9332-40c7831b9083.png)
+
+![Random Forest - Feature Importance Store 35 Dept 72](https://user-images.githubusercontent.com/70307607/121643800-df566200-caaf-11eb-91b8-66ae2888913e.png)
+
 
 ![walmart](https://user-images.githubusercontent.com/70307607/121583395-d16ff500-ca4d-11eb-94ee-47a45686953d.gif)
