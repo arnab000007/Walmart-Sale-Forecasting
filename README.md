@@ -746,7 +746,45 @@ plt.show()
 
 ![Extra Trees - Feature Importance Store 22 Dept 93](https://user-images.githubusercontent.com/70307607/121704921-d38b8f80-caf1-11eb-94ba-81bf9fcc5de2.png)
 
-![image](https://user-images.githubusercontent.com/70307607/121709104-d5efe880-caf5-11eb-8e91-a3878866a6fa.png)
+Let’s compare the feature importance of three Tree based ensembles for some stores & departments which we have seen previously. 
+
+```python
+s= 1 
+d=1    
+with open('Models/RandomForest/RF_{}_{}V1.pkl'.format(s,d), 'rb') as file:
+    pickle_model1 = pickle.load(file)
+with open('Models/XGBoost/XGB_{}_{}V1.pkl'.format(s,d), 'rb') as file:
+    pickle_model2 = pickle.load(file)
+with open('Models/XtraTrees/ET_{}_{}V1.pkl'.format(s,d), 'rb') as file:
+    pickle_model3 = pickle.load(file)
+    
+col = list(train_df_final.columns[3:])
+
+data = {'Feature': np.concatenate((col,col,col), axis=None), 
+     'Feature_Importtance': np.concatenate((pickle_model1.feature_importances_,pickle_model2.feature_importances_,pickle_model3.feature_importances_), axis=None), 
+     'Model_Type':np.concatenate((['RandomForest']*15,['XGBoost']*15, ['XtraTrees']*15), axis=None)
+    }
+df = pd.DataFrame(data=data)
+
+plt.figure(figsize=(16,6))
+sns.set_style("whitegrid")
+ax = sns.barplot(x='Feature', y='Feature_Importtance', hue='Model_Type', data=df)
+
+plt.title('Featur Importance Store {} Dept {}'.format(s,d), fontsize=14)
+plt.ylabel('Feature Importance', fontsize=16)
+plt.xlabel('Feature', fontsize=16)
+plt.show()
+```
+
+![Feature Importance Store 1 Dept 1](https://user-images.githubusercontent.com/70307607/121709381-1d767480-caf6-11eb-9067-314ed292efa8.png)
+
+![Feature Importance Store 35 Dept 72](https://user-images.githubusercontent.com/70307607/121710001-bf965c80-caf6-11eb-8587-3835b43f13d7.png)
+
+![Feature Importance Store 40 Dept 18](https://user-images.githubusercontent.com/70307607/121710113-e05eb200-caf6-11eb-94d2-b6818732ec40.png)
+
+![Feature Importance Store 22 Dept 93](https://user-images.githubusercontent.com/70307607/121710198-fa989000-caf6-11eb-964f-a120e0b33a38.png)
+
+
 
 
 ![walmart](https://user-images.githubusercontent.com/70307607/121583395-d16ff500-ca4d-11eb-94ee-47a45686953d.gif)
