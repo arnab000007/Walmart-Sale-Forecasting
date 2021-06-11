@@ -104,7 +104,7 @@ print(test_all.isnull().sum()*100.0/test_all.shape[0])
 
 ##### Observations
 1. There are more than 60 per cent markdowns that are NULL. As per the competition page Markdowns are available after Nov 2011. For the data before Nov 2011, the markdowns should be zero.
-2. For one-third of the test data the CPI and Unemployment. This ware depends on the location and time. But it cannot be changed drastically. So we can impute store location-wise mean of these columns.
+2. For one-third of the test data the CPI and Unemployment. These were depend on the location and time. But it cannot be changed drastically. So we can impute store location-wise mean of these columns.
 
 Let's fill in the NaN values -
 ```python
@@ -124,7 +124,7 @@ ax = sns.boxplot(x='Type', y='Size', data=train_all).set_title("Box Plot of Type
 ![Store Type Vs Size](images/type_vs_size.png "Store Type Vs Size")
 
 ##### Observations
-1. Size is very different for different types of store.
+1. Store Size is very different for different types of store.
 
 #### Highest Sales of a Week for a Department
 ```python
