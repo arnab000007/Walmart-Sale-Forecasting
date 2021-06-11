@@ -523,4 +523,31 @@ test_df_final.to_csv('test_all_features.csv', index=False)
 
 ### Part-4: Machine Learning Regression Models
 
+I have trained a model for each store and department combinations available in the train data. But I have noticed that for some stores and departments there are very few records available in the train data. So I decided that I will train a model when at least **5** records are available in the train data. We will split the data between train and test of a Store and Department. The test size is **0.2**. I have tried 4 different models - 
+
+1. Random Forest Regressor
+2. XGBoost Regressor
+3. Extra Trees Regressor
+4. Prophet
+
+I have prepared a function to calculate **WMAE**. I have used this function extensively.
+```python
+def calculate_WMAE(dt, y , yHat):
+    '''
+        This is the method to calculate Performance metric
+    '''    
+    w = dt['IsHoliday'].apply(lambda x : 5 if x else 1)
+    return np.round(np.sum(w*abs(y-yHat))/np.sum(w),4)
+```
+
+#### Random Forest Regressor
+At first, split the data into train and cross-validation datasets. Train the Random Forest regressor on the training dataset. After that find the WAME error on the cross-validation datasets. Repeat these steps for multiple hyperparameters. 
+
+After that, pick the best model basis on **WAME(minimum)** scores.
+
+Train the Random Forest regressor model with the hyperparameters of the best model. **This time train data will be the complete data for the current Store and Department**. 
+
+**Save a Random Forest regressor model for all applicable Store & Department combinations**. After completing the training, there are **3227 trained Random Forest Regressor models** stored on the hard disk. 
+
+
 ![walmart](https://user-images.githubusercontent.com/70307607/121583395-d16ff500-ca4d-11eb-94ee-47a45686953d.gif)
