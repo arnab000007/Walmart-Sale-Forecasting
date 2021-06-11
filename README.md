@@ -603,9 +603,15 @@ plt.ylabel('Feature Importance', fontsize=16)
 plt.xlabel('Feature', fontsize=16)
 plt.show()
 ```
-![Random Forest - Feature Importance Store 1 Dept 1](https://user-images.githubusercontent.com/70307607/121643745-cbaafb80-caaf-11eb-9332-40c7831b9083.png)
+![Random Forest - Feature Importance Store 1 Dept 1](https://user-images.githubusercontent.com/70307607/121644338-84713a80-cab0-11eb-80ac-775215ede721.png)
 
-![Random Forest - Feature Importance Store 35 Dept 72](https://user-images.githubusercontent.com/70307607/121643800-df566200-caaf-11eb-91b8-66ae2888913e.png)
+![Random Forest - Feature Importance Store 35 Dept 72](https://user-images.githubusercontent.com/70307607/121644433-9c48be80-cab0-11eb-97b3-512f7b56a61b.png)
+
+![Random Forest - Feature Importance Store 40 Dept 18](https://user-images.githubusercontent.com/70307607/121644644-e6ca3b00-cab0-11eb-8163-ee04e5c621d8.png)
+
+![Random Forest - Feature Importance Store 22 Dept 93](https://user-images.githubusercontent.com/70307607/121644821-255ff580-cab1-11eb-8444-39a2115a205f.png)
+
+
 
 
 ![walmart](https://user-images.githubusercontent.com/70307607/121583395-d16ff500-ca4d-11eb-94ee-47a45686953d.gif)
