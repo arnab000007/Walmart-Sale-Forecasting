@@ -14,7 +14,7 @@ If we have a trained model, predicting the sales number of a store shouldn't be 
 - **Part-2: Exploratory Data Analysis (EDA)**
 - **Part-3: Data Pre-Processing & Feature Extraction**
 - **Part-4: Machine Learning Regression Models**
-- **Part-5: The Model got the lowest error**
+- **Part-5: Evaluation of the Models**
 - **Part-6: Future Work**
 
 ### Part-1: Kaggle Data
@@ -784,7 +784,35 @@ plt.show()
 
 ![Feature Importance Store 22 Dept 93](https://user-images.githubusercontent.com/70307607/121710198-fa989000-caf6-11eb-964f-a120e0b33a38.png)
 
+#### 4. Prophet
+This is a time series forecasting model developed by Facebook. This is based on an additive model where non-linear trends are fit with yearly, weekly, and daily seasonality, plus holiday effects. It works best with time series that have strong seasonal effects and several seasons of historical data. Prophet is robust to missing data and shifts in the trend, and typically handles outliers well. [Click here](https://facebook.github.io/prophet/docs/quick_start.html#python-api) to find the documentation of this. [Click here](https://peerj.com/preprints/3190/#) to download the research paper.
 
+Here, only date & holiday information are used to train a prophet model of a store and department. While training a Prophet model, you can select seasonality. Here, yearly seasonality is set to True and weekly and daily seasonality are set to False.
 
+##### Training a prophet model
+```python
+train_Data['Month'] = train_Data['Month'].apply(lambda x: '0'+str(x) if len(str(x)) == 1 else str(x))
+train_Data['Day'] = train_Data['Day'].apply(lambda x: '0'+str(x) if len(str(x)) == 1 else str(x))
+train_Data['Date'] = train_Data.apply(lambda x: str(x['Year'])+"-"+str(x['Month'])+"-"+str(x['Day']), axis=1)
+train_Data['Date'] = pd.to_datetime(train_Data['Date'])
+
+prophrt_data = train_Data[['Date', 'Weekly_Sales']]
+prophrt_data = prophrt_data.rename(columns={'Date': 'ds', 'Weekly_Sales': 'y'})
+
+prophet = Prophet(holidays=holidays, yearly_seasonality=True, weekly_seasonality=False, daily_seasonality=False)
+prophet.fit(prophrt_data)
+```
+
+##### Saving a model
+Unlike other models, you should save a Prophet model in a JSON file. Please find the below code for doing this. There is a function called model_to_json available in the Prophet library which is used to save a model in a JSON file. 
+
+```python
+filename = 'Models/Prophet/PP_'+str(s)+'_'+str(d)+'V'+str(v)+'.json'
+        
+with open(filename, 'w') as file:
+    json.dump(model_to_json(model), file)
+```
+
+### Part-5: Evaluation of the Models
 
 ![walmart](https://user-images.githubusercontent.com/70307607/121583395-d16ff500-ca4d-11eb-94ee-47a45686953d.gif)
