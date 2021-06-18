@@ -884,9 +884,8 @@ Please find the [GitHub link](https://github.com/arnab000007/Walmart-Store-Sales
 Thank you for your attention and reading my work. If you liked this story, share it with your friends and colleagues!. Also, follow me on [LinkedIn](https://www.linkedin.com/in/arnab-das-17915173/).
 
 ### References
-1. https://facebook.github.io/prophet/docs/quick_start.html#python-api
-2. https://medium.com/@abhishek.palle123/walmart-store-sales-forecasting-d15a205e3348
-3. https://www.kaggle.com/c/walmart-recruiting-store-sales-forecasting/discussion/8023
-
+1. [https://facebook.github.io/prophet/docs/quick_start.html#python-api](https://facebook.github.io/prophet/docs/quick_start.html#python-api)
+2. [https://medium.com/@abhishek.palle123/walmart-store-sales-forecasting-d15a205e3348](https://medium.com/@abhishek.palle123/walmart-store-sales-forecasting-d15a205e3348)
+3. [https://www.kaggle.com/c/walmart-recruiting-store-sales-forecasting/discussion/8023](https://www.kaggle.com/c/walmart-recruiting-store-sales-forecasting/discussion/8023)
 
 
