@@ -1,4 +1,4 @@
-## Walmart Store Sales Forecasting
+# Walmart Store Sales Forecasting
 ![A Walmart Store](images/header.jpeg "A Walmart Store")
 
 ### Kaggle Problem Definition
