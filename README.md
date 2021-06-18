@@ -868,6 +868,7 @@ ExtraTrees | 3123.9821 | 2946.12504
 Average of Random Forest + XGBoost + ExtraTrees | 2983.59973 | 2839.19310
 Prophet | 3073.71809 | 2966.65869
 Average of all Models | 2770.29707 | 2639.92581
+Average of Random Forest + Prophet | 2736.33345 | 2627.53877
 
 
 ![Final Submission- Average of all models](https://user-images.githubusercontent.com/70307607/122509119-da019600-d020-11eb-902a-3c9b18690d70.png)
