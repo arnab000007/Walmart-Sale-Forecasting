@@ -17,6 +17,8 @@ If we have a trained model, predicting the sales number of a store shouldn't be 
 - **Part-5: Evaluation of the Models**
 - **Part-6: Future Work**
 
+![walmart](https://user-images.githubusercontent.com/70307607/121583395-d16ff500-ca4d-11eb-94ee-47a45686953d.gif)
+
 ### Part-1: Kaggle Data
 We are provided with historical sales data for 45 Walmart stores located in different regions. Each store contains many departments, and you are tasked with predicting the department-wide sales for each store.
 
@@ -814,5 +816,62 @@ with open(filename, 'w') as file:
 ```
 
 ### Part-5: Evaluation of the Models
+Now comes the most important part. **What are the sales numbers of the test data and what is the WMAE score for these sales numbers?**
 
-![walmart](https://user-images.githubusercontent.com/70307607/121583395-d16ff500-ca4d-11eb-94ee-47a45686953d.gif)
+Here the sales numbers of the test data are not available. Have to create a CSV file with the id column & sales number mentioned in the Kaggle problem and submit it in the Kaggle to get the score.
+
+But the sales numbers of some Stores & Departments are not available in our train data but we have to predict the sales number. For these Stores & Departments, I have taken an approach. The approach is very simple. I will calculate the similar store in terms of average sales numbers/size and pick the model of the similar store for that department.
+
+```python
+def get_nearestStore(store, field, model_info='sales'):
+    '''
+        This is a function which will give us similar store in term of Field. 
+        By default it will give us the nearest store based on the weekly sales
+    '''
+    avg_sales = train_df_final.groupby(['Store'])[['Weekly_Sales']].mean().reset_index()
+    if field == 'size':
+        avg_sales = train_df_final.groupby(['Store'])[['Size']].mean().reset_index()
+        
+    
+    avg_sales['ABS_Diff'] = abs(avg_sales.iloc[:,1] - avg_sales[avg_sales['Store'] == store].reset_index().iloc[0,1])
+    
+    avg_sales = avg_sales.merge(model_info, on='Store')
+    alt_store = avg_sales[avg_sales['Store'] != store].reset_index()[['Store']].iloc[0,0]
+    
+    return int(alt_store);
+    
+    
+```
+For each Store and Department, we have to load the saved models and forecast the sales numbers.
+
+After that, I generated the CSV files to submit in Kaggle and get the score.
+
+```python
+weekly_sales_test['Month'] = weekly_sales_test['Month'].apply(lambda x: '0'+str(x) if len(str(x)) == 1 else str(x))
+weekly_sales_test['Day'] = weekly_sales_test['Day'].apply(lambda x: '0'+str(x) if len(str(x)) == 1 else str(x))
+
+weekly_sales_test['Id'] = weekly_sales_test.apply(lambda x: str(x['Store']) + "_" + str(x['Dept'])+"_"+str(x['Year'])+"-"+str(x['Month'])+"-"+str(x['Day']), axis=1)
+
+weekly_sales_test[['Id','Weekly_Sales']].to_csv('Submissions/Submission_v16_All_VAll.csv', index=False);
+```
+
+**Here you can find the WMAE score of all models.**
+
+***Models*** | ***Private Score*** | ***Public Score***
+--- | --- | ---
+Random Forest | 3089.84 | 2921.30448
+Average of 2 Random Forests | 3041.27575 | 2892.53128
+Best Model of 2 Random Forests | 3021.37934 | 2881.91710
+XGBoost | 3269.41583 | 3065.33341
+Average of XGBoost + Random Forest | 3011.23272 | 2875.34598
+ExtraTrees | 3123.9821 | 2946.12504
+Average of Random Forest + XGBoost + ExtraTrees | 2983.59973 | 2839.19310
+Prophet | 3073.71809 | 2966.65869
+Average of all Models | 2770.29707 | 2639.92581
+
+![image](https://user-images.githubusercontent.com/70307607/122508703-049f1f00-d020-11eb-994b-3e13cc5356b1.png)
+
+
+
+
+
