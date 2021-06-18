@@ -875,9 +875,18 @@ Average of all Models | 2770.29707 | 2639.92581
 
 ### Part-6: Future Work
 
+1. I want to try some Deep learning based model to improve the score further.
+2. I also try some statistical model like ARIMA 
 
 
+Please find the [GitHub link](https://github.com/arnab000007/Walmart-Store-Sales-Forecasting) of the project. 
 
+Thank you for your attention and reading my work. If you liked this story, share it with your friends and colleagues!. Also, follow me on [LinkedIn](https://www.linkedin.com/in/arnab-das-17915173/).
+
+### References
+1. https://facebook.github.io/prophet/docs/quick_start.html#python-api
+2. https://medium.com/@abhishek.palle123/walmart-store-sales-forecasting-d15a205e3348
+3. https://www.kaggle.com/c/walmart-recruiting-store-sales-forecasting/discussion/8023
 
 
 
