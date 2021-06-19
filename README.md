@@ -889,7 +889,7 @@ Please find the [GitHub link](https://github.com/arnab000007/Walmart-Store-Sales
 
 Thank you for your attention and reading my work. If you liked this story, share it with your friends and colleagues!. Also, follow me on [LinkedIn](https://www.linkedin.com/in/arnab-das-17915173/).
 
-I want to thank all the team members of Applied AI, especially Srikanth sir. Please visit [https://www.appliedaicourse.com/](https://www.appliedaicourse.com/) for more information.
+I want to thank all the team members of Applied AI course, especially Srikanth sir. Please visit [https://www.appliedaicourse.com/](https://www.appliedaicourse.com/) for more information.
 
 ### References
 1. [https://facebook.github.io/prophet/docs/quick_start.html#python-api](https://facebook.github.io/prophet/docs/quick_start.html#python-api)
