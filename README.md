@@ -2,12 +2,10 @@
 ![A Walmart Store](images/header.jpeg "A Walmart Store")
 
 ### Kaggle Problem Definition
-Walmart is a supermarket chain in the USA. Currently, they have opened their stores all over the world.
-Predicting future sales for a company like Walmart is one of the most important aspects of strategic planning. Based on the sales number they can take an informed decision for the short term and long term. The future sales number also help to recruit contract employee based on sales. It will also help a Walmart store to work more efficient way.
+Walmart is a supermarket chain in the USA. Currently, they have opened their stores all over the world. Predicting future sales for a company like Walmart is one of the most important aspects of strategic planning. Based on the sales number they can take an informed decision for the short term and long term. The future sales number also helps to recruit contract employees based on sales. It will also help a Walmart store to work more efficiently.
 
 ### The Big Question - Why we need a Machine Learning approach?
-They have multiple stores in various location across the world. There may have different sales pattern in different store placed in different locations. To identify this pattern and predict future sales, we should have a complete solution. Here, we can take a machine learning approach to create this complete solution. 
-If we have a trained model, predicting the sales number of a store shouldn't be a tedious task to do. It will save lots of human time.
+They have multiple stores in various locations across the world. There may be different sales patterns in different stores placed in different locations. To identify this pattern and predict future sales, we should have a complete solution. Here, we can take a machine learning approach to create this complete solution.  If we have a trained model, predicting the sales number of a store shouldn’t be a tedious task to do. It will save lots of human time.
 
 ## Overview of this Blog:
 - **Part-1: Kaggle Data**
@@ -72,7 +70,7 @@ feature_data = pd.read_csv("features.csv")
 #Stores.csv
 store_data = pd.read_csv("stores.csv")
 ```
-Currently, we have multiple data frames. Let join those data frames.
+Currently, we have multiple data frames. Let's join those data frames.
 ```python
 #Join The Train data
 train_all = train_data.set_index("Store").join(store_data.set_index("Store"))
@@ -106,7 +104,7 @@ print(test_all.isnull().sum()*100.0/test_all.shape[0])
 
 ##### Observations
 1. There are more than 60 per cent markdowns that are NULL. As per the competition page Markdowns are available after Nov 2011. For the data before Nov 2011, the markdowns should be zero.
-2. For one-third of the test data the CPI and Unemployment. These were depend on the location and time. But it cannot be changed drastically. So we can impute store location-wise mean of these columns.
+2. For one-third of the test data the CPI and Unemployment. These were dependent on the location and time. But it cannot be changed drastically. So we can impute store location-wise mean of these columns.
 
 Let's fill in the NaN values -
 ```python
@@ -182,8 +180,8 @@ plt.title("Average/Median weekly sales of the Different Week Over a year", fonts
 
 ##### Observations
 1. The Sales Number from last November to December are much bigger than a normal week.
-2. The Sales number are minimum after December.
-3. We can see a spike for Super Bawl.
+2. The Sales numbers are minimum after December.
+3. We can see a spike for the Super Bowl.
 4. In January the average sales are low.
 
 Now, Let's try to find the pattern of Weekly sales for some departments.
@@ -212,7 +210,7 @@ Similarly, we can plot the same data for 11 to 20 and 20 to 30
 
 ##### Observations
 1. Each Department has its own behaviour.
-2. For some of the department pattern of sales, the number is similar to the average sales number of all departments.
+2. For some of the department patterns of sales, the number is similar to the average sales number of all departments.
 3. We should have different models for different departments.
 
 **Here I have decided to train a model for each store and department.**
@@ -229,11 +227,11 @@ fig = px.scatter(avg_sales, x="Store", y="Weekly_Sales",
 fig.show()
 ```
 ![Average weekly sales with store category and size](images/newplot.png "Average weekly sales with store category and size")
-Here, I am trying to plot average sales with store and size of the bubble is denoting the size of the store.
+Here, I am trying to plot average sales with the store and size of the bubble denoting the size of the store
 
 ##### Observations
-1. Some stores are in A or B category but the sizes of those store are leas than the size of any C category store.
-2. Here we can see a broad partern that the store has more size have more sale numbers.
+1. Some stores are in A or B category but the sizes of those stores are less than the size of any C category store.
+2. Here we can see a broad pattern that the store has more size and has more sale numbers.
 
 #### Store wise Average Sales Numbers Holiday vs Non Holiday week
 
@@ -251,9 +249,9 @@ Here we are trying to compare average sales of a store on a holiday week and non
 ![Store wise Average Sales Numbers Holiday vs Non Holiday week](images/Store_wise_Average_Sales.png "Store wise Average Sales Numbers Holiday vs Non Holiday week")
 
 ##### Observations
-1. Most of the stores have better sales number in the holliday week.
+1. Most of the stores have better sales numbers in the holiday week.
 
-#### Storewise average percentage sale
+#### Store wise average percentage sale
 ```python
 weekly_sales_dept = train_all.groupby(["Store", 'Type'])[["Weekly_Sales"]].mean().reset_index()
 weekly_sales_mean = weekly_sales_dept["Weekly_Sales"].sum()
@@ -284,8 +282,8 @@ plt.show()
 ![Storewise average percentage sale](images/Storewise_average_percentage_sale.png "Storewise average percentage sale")
 
 ##### Observations
-1. Some A category store has less average sales number than some B or C category.
-2. Most of A category stores have more number than B or C category.
+1. Some A category stores have less average sales number than some B or C category stores.
+2. Most A category stores have more numbers than B or C category stores.
 
 #### Department wise Average Sales Numbers Holiday vs Non Holiday week
 
@@ -305,7 +303,7 @@ Here we are trying to compare average sales of a department on a holiday week an
 
 ##### Observations
 1. For Some departments, the increases in Holiday sales are bigger than the others. 
-2. But in most of the departments, the holiday sales is the range of the average sales.
+2. But in most of the departments, the holiday sales are in the range of the average sales.
 
 #### Store vs Departments
 
@@ -318,12 +316,12 @@ store_Dept.head()
 
 ##### Observations
 1. Here we have a critical observation. For each store the number of departments available in that store is different. If we have a model for each store and department then there may be an issue if a new department is introduced in future.
-2. We have to check the above scenario is present or not in our test data.
+2. We have to check if the above scenario is present or not in our test data.
 
 Let us find the distinct count of Store and Department in the training data is **3331** and the same distinct count of test data is **3169**. But between these two distinct lists of Store and Department, **3158** combinations are common. That means there are **11** combinations of Store and Department available in test data but not available in train data.
 
 #### Average Sales behaviour Over a month
-Lets find the average sales of a week for each months. In the plot, Month are shown in numbers. Thats mean Month 1 is January.
+Let's find the average sales of a week for each month. In the plot, Months are shown in numbers. That means Month 1 is January.
 ```python
 train_all['Month'] = train_all['Date'].dt.month
 train_all['Week'] = train_all['Date'].dt.week
@@ -344,9 +342,9 @@ plt.show()
 ![Average Sales behaviour Over a month](images/download.png "Average Sales behaviour Over a month")
 
 ##### Observations
-1. For most of the months, the first week of the month has more sales number than the last week of that months. I add a feature called the week of a month.
+1. For most of the months, the first week of the month has more sales than the last week of that month. I added a feature called the week of a month.
 2. In November, I have seen different behaviour than in other months. The last week of November has Thanksgiving day and the sales number is high for this week.
-3. In December, we have the Christmas holiday in the last week of the year. But sales number are pretty low this week. People did their Christmas shopping in the prior week.
+3. In December, we have the Christmas holiday in the last week of the year. But sales numbers are pretty low this week. People did their Christmas shopping in the prior week.
 
 #### Let try to analyze the the Sales of last 2 weeks
 
@@ -371,8 +369,8 @@ plt.show()
 ![Average Sales of last 2 weeks of the year](https://user-images.githubusercontent.com/70307607/121474061-2a557400-c9e1-11eb-85d4-a20f6ab394ce.png)
 
 ##### Observations
-1. In 2010, there are no days between the second last week and the Christmas day but in 2011, there is one day. This is one of the reasons to have a bigger last week sales number in 2011 compared to 2010.
-2. Sum of sales number of the last 2 week of a year has similar number. 
+1. In 2010, there were no days between the second last week and Christmas day but in 2011, there was one day. This is one of the reasons to have a bigger last week sales number in 2011 compared to 2010.
+2. Sum of sales of the last 2 week of a year has a similar number.
 
 #### Compare sales of a holiday week with previous and post week
 
@@ -396,7 +394,7 @@ print(tabulate(train_pivot[['HolidayCat','Percentage_Sale_Increase_From_Previous
 ![Compare sales of a holiday week with previous and post week](https://user-images.githubusercontent.com/70307607/121474948-6ccb8080-c9e2-11eb-9183-a51bf42cf9d8.png)
 
 ##### Observation
-1. For Christmas Week, people are made their shopping in the prior week.
+1. For Christmas Week, people do their shopping in the prior week.
 2. Thanksgiving week has an almost 30% sales jump compared to the previous week and an almost 25% sale decrease in the post week.
 
 
@@ -423,8 +421,8 @@ plt.show()
 ![Find the importance of Fuel price](https://user-images.githubusercontent.com/70307607/121475394-f713e480-c9e2-11eb-831c-3f923bfe3dbf.png)
 
 ##### Observations
-1. We have seen that average weekly sales are increased from the previous month irrespective of fuel price.
-2. In minimum fuel price month, price down by 3.5 per cent and the sale was increased by 11.8 per cent. There may be a reason for the fuel price decrease. We have to consider that this month has a holiday.
+1. We have seen that average weekly sales have increased from the previous month irrespective of fuel price.
+2. In the minimum fuel price month, price fell by 3.5 per cent and the sale was increased by 11.8 per cent. There may be a reason for the fuel price decrease. We have to consider that this month has a holiday.
 
 
 #### Similarly, we can get a similar plot for Temperature, CPI and Unemployment Rate
@@ -432,7 +430,7 @@ plt.show()
 ![Find the importance of Temperature](https://user-images.githubusercontent.com/70307607/121476301-1c552280-c9e4-11eb-913f-934d7df5a260.png)
 ##### Observations
 1. For the Minimum temperature month, there is a huge decrease in sales compared to the previous month.
-2. When the temperature is high then also the sales number is low compare to the previous month.
+2. When the temperature is high then also the sales number is low compared to the previous month.
 
 
 ![Find the importance of CPI](https://user-images.githubusercontent.com/70307607/121476340-29721180-c9e4-11eb-910a-4fec589ff20e.png)
@@ -443,7 +441,7 @@ plt.show()
 ![Find the importance of Unemployment Rate](https://user-images.githubusercontent.com/70307607/121476381-35f66a00-c9e4-11eb-99e1-00b75b7c5f8a.png)
 
 ##### Observations
-1. The max unemployment rate in December and in this month, huge sale increase in December compare ro the previous month.
+1. The max unemployment rate in December and in this month, huge sales increase in December compared to the previous month.
 
 #### Lets find the correlation between different features
 
@@ -477,14 +475,14 @@ In this section, we have done the below steps -
 	- Day
 	- Week of Month
 	- Week Number of the Year
-	- Days to Crismas
+	- Days to Christmas
 3. One hot encoding for the Store type
 4. Drop the Date & Type
 
 ```python
-#This is the function which will do all the featurizarion and add new feature
+#This is the function which will do all the featurization and add new feature
 def add_drop_feature(df):
-    #droping all markdowns
+    #dropping all markdowns
     columns_drop = ['MarkDown1','MarkDown2','MarkDown3','MarkDown4','MarkDown5']
     for col in columns_drop:
         if col in df.columns:
@@ -825,7 +823,7 @@ But the sales numbers of some Stores & Departments are not available in our trai
 ```python
 def get_nearestStore(store, field, model_info='sales'):
     '''
-        This is a function which will give us similar store in term of Field. 
+        This is a function which will give us a similar store in term of Field. 
         By default it will give us the nearest store based on the weekly sales
     '''
     avg_sales = train_df_final.groupby(['Store'])[['Weekly_Sales']].mean().reset_index()
@@ -887,9 +885,9 @@ Average of all Models | 2770.29707 | 2639.92581
 
 Please find the [GitHub link](https://github.com/arnab000007/Walmart-Store-Sales-Forecasting) of the project. 
 
-Thank you for your attention and reading my work. If you liked this story, share it with your friends and colleagues!. Also, follow me on [LinkedIn](https://www.linkedin.com/in/arnab-das-17915173/).
+Thank you for your attention and for reading my work. If you liked this story, share it with your friends and colleagues!. Also, follow me on [LinkedIn](https://www.linkedin.com/in/arnab-das-17915173/).
 
-I want to thank all the team members of Applied AI course, especially Srikanth sir. Please visit [https://www.appliedaicourse.com/](https://www.appliedaicourse.com/) for more information.
+I want to thank all the team members of the Applied AI course, especially Srikanth sir. Please visit [https://www.appliedaicourse.com/](https://www.appliedaicourse.com/) for more information.
 
 ### References
 1. [https://facebook.github.io/prophet/docs/quick_start.html#python-api](https://facebook.github.io/prophet/docs/quick_start.html#python-api)
