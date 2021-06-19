@@ -207,8 +207,8 @@ plt.show()
 
 Similarly, we can plot the same data for 11 to 20 and 20 to 30
 
-![Average Weekly Sales for dept 11 to 20](images/average_weekly_sales_by_dept_1.png "Average Weekly Sales for dept 11 to 20")
-![Average Weekly Sales for dept 21 to 30](images/average_weekly_sales_by_dept_1.png "Average Weekly Sales for dept 21 to 30")
+![Average Weekly Sales for dept 11 to 20](images/average_weekly_sales_by_dept_2.png "Average Weekly Sales for dept 11 to 20")
+![Average Weekly Sales for dept 21 to 30](images/average_weekly_sales_by_dept_3.png "Average Weekly Sales for dept 21 to 30")
 
 ##### Observations
 1. Each Department has its own behaviour.
