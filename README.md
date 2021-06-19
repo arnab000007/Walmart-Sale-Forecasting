@@ -871,7 +871,10 @@ Average of all Models | 2770.29707 | 2639.92581
 **`Average of Random Forest + Prophet`** | **`2736.33345`** | **`2627.53877`**
 
 
+![Average of Random Forest + Prophet](https://user-images.githubusercontent.com/70307607/122629195-eb0dde00-d0d8-11eb-86ad-8742f5a5541c.png)
+
 ![Final Submission- Average of all models](https://user-images.githubusercontent.com/70307607/122509119-da019600-d020-11eb-902a-3c9b18690d70.png)
+
 
 
 ### Part-6: Future Work
